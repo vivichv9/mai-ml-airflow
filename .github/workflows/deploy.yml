@@ -23,4 +23,4 @@ jobs:
       env:
         SERVER_IP: ${{ secrets.SERVER_IP }}
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP "cd PATH && git pull"
+        ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP "cd /home/ubuntu/mai-ml-airflow/dags && git pull"
