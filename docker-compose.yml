@@ -1,0 +1,32 @@
+version: '3'
+services:
+  airflow_postgres:
+    image: postgres:12.20-alpine3.20
+    platform: linux/amd64
+    env_file:
+      - .env
+    volumes:
+      - "airflow_dbdata:/var/lib/postgresql/data"
+    ports:
+      - "5434:5432"
+
+  airflow:
+    build: .
+    restart: always
+    depends_on:
+      - airflow_postgres
+    env_file:
+      - .env
+
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./dags:/usr/local/airflow/dags"
+      - "./plugins:/usr/local/airflow/plugins"
+      - "./variables:/usr/local/airflow/variables"
+      - "./config/airflow.cfg:/usr/local/airflow/airflow.cfg"
+      - "logs:/usr/local/airflow/logs"
+
+volumes:
+  airflow_dbdata:
+  logs:
